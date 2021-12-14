@@ -1,0 +1,36 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <h1>{{ username }}'s profile</h1>
+        <h4>{{ num_followers }} followers</h4>
+        <h4>{{ num_following }} following</h4>
+        <form action="" method="post">
+            {{ follow_form.csrf_token }}
+            {{ follow_form.submit() }}
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for post in posts %}
+        <div class="col-sm-" style='padding:5px; border:1px solid lightgray; background-color: #f2f2f2; margin:5px'>
+            <img class="image" src="data:image/png;base64,{{post.image}}" width='350px' alt="image">
+            <div>
+                <a href="{{ url_for('posts.user_detail', uid=post.poster_id) }}">
+                    @{{ post.poster_name }}
+                </a> - {{ post.date }}
+            </div>
+            <div>{{ post.num_likes }} likes</div>
+            <h4>{{ post.caption }}</h4>
+            <div>
+                <a href="{{ url_for('posts.post_detail', id=post.post_id) }}">
+                    View comments
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
